@@ -1,4 +1,4 @@
-#same functionality as VorI_cycles but with manual imput of parameters directly in code
+#same functionality as VorI_cycles but with manual input of parameters directly in code
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
