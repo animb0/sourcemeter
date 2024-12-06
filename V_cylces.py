@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 # For the Keithley Sourcemeter 2450
 # Cycles of measuring voltage and recharging with a source voltage
 import time
@@ -20,16 +21,10 @@ keithley = Keithley2450("keithley", "USB0::0x05e6::0x2450::04616895::INSTR")
 keithley.reset()
 keithley.terminals("front")
 
-<<<<<<< HEAD
 # Experiment parameters
 experiment = "NZ32_HNLAH_sample3"
 measure_time = 2
 recharge_time = 2
-=======
-experiment= "samplename"
-measure_time = 1500
-recharge_time = 1500
->>>>>>> 4a03feae6d8c76a3c10b5bce64c0ddbd129ca2bd
 recharge_V = +1
 cycles = 3
 total_time = measure_time * cycles + recharge_time * (cycles - 1)
@@ -78,11 +73,7 @@ file_path = output_folder / f"{current_time_str}_{experiment}_{measure_time}s_di
 # Save data to the file
 df = pd.DataFrame(data)
 df.to_csv(file_path, index=True)
-<<<<<<< HEAD
 print(f"Measurement finished. Data saved to {file_path}")
 
 # Close the instrument
-=======
-print("Measurement finished")
->>>>>>> 4a03feae6d8c76a3c10b5bce64c0ddbd129ca2bd
 keithley.close()
