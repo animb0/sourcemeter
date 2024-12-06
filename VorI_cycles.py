@@ -47,7 +47,7 @@ timezero = time.time()
 # Generic function to measure voltage or current
 def measure(keithley, data, duration, mode):
     start_time = time.time()
-    keithley.sense.function(mode)  # Set to voltage or current measurement mode
+    keithley.sense.function(mode) # Set to voltage or current measurement mode
     while time.time() - start_time < duration:
         with keithley.output_enabled.set_to(True):
             value = keithley.sense.voltage() if mode == "voltage" else keithley.sense.current()
