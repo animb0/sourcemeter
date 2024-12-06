@@ -16,7 +16,7 @@ keithley = Keithley2450("keithley", "USB0::0x05e6::0x2450::04616895::INSTR")
 keithley.reset()
 keithley.terminals("front")
 
-experiment= "NZ32_HNLAH_sample3"
+experiment= "samplename"
 measure_time = 1500
 recharge_time = 1500
 recharge_V = +1
