@@ -43,23 +43,24 @@ def plot_results():
     applied_segments = data[applied_mask]
     measurement_segments = data[measure_mask]
 
-    # Identify separate measurement cycles
+    # Identify separate measurement cycles by detecting time resets
     measurement_cycles = []
     current_cycle = []
     for i, row in measurement_segments.iterrows():
         if current_cycle and row["Time"] < current_cycle[-1]["Time"]:
-            # Start a new cycle if the time decreases (or resets)
+            # Start a new cycle if the time resets (i.e., goes back to an earlier point)
             measurement_cycles.append(pd.DataFrame(current_cycle))
             current_cycle = []
         current_cycle.append(row)
 
-    if current_cycle:  # Add the last cycle
+    # Add the last cycle if there is any remaining
+    if current_cycle:
         measurement_cycles.append(pd.DataFrame(current_cycle))
 
     # Create a figure
     plt.figure(figsize=(10, 6))
 
-    # Plot applied voltage/current segments
+    # Plot applied voltage/current segments as scatter points
     plt.scatter(
         applied_segments["Time"],
         applied_segments[mode],
@@ -68,13 +69,13 @@ def plot_results():
         alpha=0.7,
     )
 
-    # Plot each measurement cycle separately
+    # Plot each measurement cycle separately as scatter points (no lines)
     for i, cycle_data in enumerate(measurement_cycles):
-        plt.plot(
+        # Plot measurement data as points
+        plt.scatter(
             cycle_data["Time"],
             cycle_data[mode],
             label=f"Measurement Cycle {i + 1}",
-            linestyle="-",
             alpha=0.7,
         )
 
