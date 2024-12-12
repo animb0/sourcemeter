@@ -1,3 +1,6 @@
+from gpiozero.pins.native import NativeFactory
+from gpiozero import Device
+Device.pin_factory = NativeFactory()
 from gpiozero import Button, OutputDevice
 from signal import pause
 from qcodes.instrument_drivers.tektronix.Keithley_2450 import Keithley2450
