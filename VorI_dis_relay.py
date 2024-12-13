@@ -9,7 +9,7 @@ import pandas as pd
 from pathlib import Path
 
 # GPIO pin configuration
-button_pin = 17  # Button to start measurement
+button_pin = 2  # Button to start measurement
 relay1_pin = 27  # Relay 1 control pin
 relay2_pin = 22  # Relay 2 control pin
 
