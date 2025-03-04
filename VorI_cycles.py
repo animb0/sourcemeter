@@ -53,7 +53,7 @@ def measure(keithley, data, duration, mode):
             value = keithley.sense.voltage() if mode == "voltage" else keithley.sense.current()
         current_time = time.time() - timezero
         data.append({"Time": current_time, mode.capitalize(): value, "Voltage_Applied": 1})  # Add measurement type
-        print(f"Time = {round(current_time, 3)}, {mode.capitalize()} = {round(value, 5)}")
+        print(f"Time = {round(current_time, 3)}, {mode.capitalize()} = {round(value, 9)}")
         time.sleep(1)  # Measurement interval of 1 second
 
 # Function to apply voltage during recharge
@@ -73,9 +73,9 @@ data = []
 print(f"Total measurement duration: {total_time}s, Mode: {mode.capitalize()}")
 for cycle in range(0, cycles):
     print(f"Cycle {cycle + 1}/{cycles}")
+    apply_voltage(keithley, data, mode)
     measure(keithley, data, measure_time, mode)
-    if cycle < cycles - 1:  # Check if it's not the last cycle
-        apply_voltage(keithley, data, mode)
+        
 
 # Save data to CSV file in the user's Documents folder with timestamp in the name
 current_time_str = time.strftime("%Y%m%d-%H%M%S")  # Format the current time

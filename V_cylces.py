@@ -22,11 +22,11 @@ keithley.reset()
 keithley.terminals("front")
 
 # Experiment parameters
-experiment = "NZ32_HNLAH_sample3"
-measure_time = 2
-recharge_time = 2
+experiment = "NZ38_HCL_LiAMPS"
+measure_time = 1800
+recharge_time = 1800
 recharge_V = +1
-cycles = 3
+cycles = 5
 total_time = measure_time * cycles + recharge_time * (cycles - 1)
 timezero = time.time()
 
@@ -40,6 +40,7 @@ def measure_voltage(keithley, data, duration):
         current_time = time.time() - timezero
         data.append({"Time": current_time, "Voltage": voltage, "Voltage_Applied": 1})  # Voltage_Applied for color coding in plot
         print(f"Time = {round(current_time, 3)}, Voltage = {round(voltage, 5)}")
+
         time.sleep(1)  # Measurement interval of 1 second
 
 # Function to apply voltage
