@@ -75,7 +75,7 @@ for cycle in range(cycles):
 
 # Save data to CSV in a dynamically created folder named after the experiment
 current_time_str = time.strftime("%Y%m%d-%H%M")
-base_folder = Path("/home/pi/Documents/Sourcemeter_Data")  # Raspberry Pi storage path
+base_folder = Path("/home/nickzahnd/Documents/Sourcemeter_Data")  # Raspberry Pi storage path
 experiment_folder = base_folder / experiment  # Folder named after experiment
 experiment_folder.mkdir(parents=True, exist_ok=True)  # Create folder if it doesn’t exist
 
