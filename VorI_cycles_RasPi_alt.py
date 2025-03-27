@@ -181,4 +181,3 @@ print(f"Measurement finished. Data saved to {file_path}")
 
 # Close instrument
 keithley.close()
->>>>>>> 753f286766655e2b5de67d91632d72b09d53f720
