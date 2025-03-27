@@ -16,11 +16,11 @@ from qcodes.instrument_drivers.tektronix.Keithley_2450 import Keithley2450
 
 # Initialize the Keithley instrument
 keithley = Keithley2450("keithley", "USB0::0x05e6::0x2450::04616895::INSTR")
-keithley.reset()
+keithley.write('*RST') 
 keithley.terminals("front")
 
 # Get user input in a single line
-user_input = input("Enter experiment name, measurement time (s), recharge time (s), recharge voltage (V), cycles, mode (V/I):\n")
+user_input = input("Enter experiment name, measurement time (s), recharge time (s), recharge voltage (V or A), cycles, mode (V/I):\n")
 experiment, measure_time, recharge_time, recharge_val, cycles, mode = user_input.split()
 
 # Convert inputs to correct types
@@ -71,7 +71,7 @@ for cycle in range(cycles):
     measure(keithley, data, measure_time, mode)
 
 # Save data to CSV in a dynamically created folder named after the experiment
-current_time_str = time.strftime("%Y%m%d-%H%M%S")
+current_time_str = time.strftime("%Y%m%d-%H%M")
 base_folder = Path("/home/pi/Documents/Sourcemeter_Data")  # Raspberry Pi storage path
 experiment_folder = base_folder / experiment  # Folder named after experiment
 experiment_folder.mkdir(parents=True, exist_ok=True)  # Create if it doesn't exist

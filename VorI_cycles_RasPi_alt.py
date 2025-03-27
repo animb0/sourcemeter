@@ -16,9 +16,10 @@ from pathlib import Path
 from qcodes.instrument_drivers.tektronix.Keithley_2450 import Keithley2450
 
 # Initialize the Keithley instrument
-rm = pyvisa.ResourceManager()
+#rm = pyvisa.ResourceManager()
 
-keithley = rm.open_resource("USB0::0x05e6::0x2450::04616895::INSTR")
+#keithley = rm.open_resource("USB0::0x05e6::0x2450::04616895::INSTR")
+keithley = Keithley2450("keithley", "USB0::0x05e6::0x2450::04616895::INSTR")
 keithley.reset()
 keithley.terminals("front")
 
