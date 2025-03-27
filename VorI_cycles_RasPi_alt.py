@@ -85,7 +85,7 @@ file_path = experiment_folder / f"{current_time_str}_{experiment}_{measure_time}
 df = pd.DataFrame(data)
 df.to_csv(file_path, index=False)
 print(f"Measurement finished. Data saved to {file_path}")
-os.system("scp -r /home/nickzahnd/Documents/Sourcemeter_Data pi@134.21.218.23:~/Documents/OneDrive - Université de Fribourg/Electronic measurements/Sourcemeter/Raw_data/Python_script_cycles_output") 
+os.system("scp -r /home/nickzahnd/Documents/Sourcemeter_Data pi@134.21.218.23:~/OneDrive - Université de Fribourg/Documents/Electronic measurements/Sourcemeter/Raw_data/Python_RasPi_output") 
 
 # Close connection
 keithley.close()
