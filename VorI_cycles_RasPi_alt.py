@@ -18,12 +18,14 @@ from qcodes.instrument_drivers.tektronix.Keithley_2450 import Keithley2450
 
 # Initialize the Keithley instrument
 #rm = pyvisa.ResourceManager()
-rm = pyvisa.ResourceManager()
 
 #keithley = rm.open_resource("USB0::0x05e6::0x2450::04616895::INSTR")
-keithley = rm.open_resource("USB0::0x05e6::0x2450::04616895::INSTR")
-keithley.reset()
-keithley.terminals("front")
+
+rm = pyvisa.ResourceManager()
+visa_handle = rm.open_resource("USB0::0x05e6::0x2450::04616895::INSTR")
+keithley = Keithley2450("keithley", visa_handle)
+#keithley.reset()
+#keithley.terminals("front")
 
 # Get user input in a single line
 user_input = input("Enter experiment name, measurement time (s), recharge time (s), recharge voltage (V or A), cycles, mode (V/I):\n")
