@@ -48,18 +48,27 @@ data = []
 def measure(keithley, data, duration, mode):
     start_time = time.time()
     while time.time() - start_time < duration:
-        read_str = keithley.query("READ?")
-        parts = read_str.strip().split(',')
+        try:
+            read_str = keithley.query("READ?")
+            print(f"Raw READ? response: {read_str!r}")
+            parts = read_str.strip().split(',')
 
-        # For voltage mode: parts[1] = actual voltage measured
-        # For current mode: parts[2] = actual current measured
-        if mode.lower() == 'v':
-            value = float(parts[1])
-        else:
-            value = float(parts[2])
-        current_time = time.time() - timezero
-        data.append({"Time": current_time, mode.upper(): value, "Voltage_Applied": 1})
-        print(f"Measuring: Time = {round(current_time, 3)}s, {mode.upper()} = {round(value, 9)}")
+            # Select correct index for voltage or current
+            if mode.lower() == 'v' and len(parts) > 1:
+                value = float(parts[1])
+            elif mode.lower() == 'i' and len(parts) > 2:
+                value = float(parts[2])
+            else:
+                print("⚠️ Unexpected READ? format:", parts)
+                value = float('nan')  # Store NaN or skip this point
+
+            current_time = time.time() - timezero
+            data.append({"Time": current_time, mode.upper(): value, "Voltage_Applied": 1})
+            print(f"Measuring: Time = {round(current_time, 3)}s, {mode.upper()} = {round(value, 9)}")
+
+        except Exception as e:
+            print(f"❌ Measurement error: {e}")
+        
         time.sleep(1)
 
 # Function to apply voltage during recharge
