@@ -9,7 +9,6 @@ import time
 import pandas as pd
 from pathlib import Path
 import pyvisa
-import os
 # Initialize PyVISA Resource Manager
 rm = pyvisa.ResourceManager()
 
@@ -49,7 +48,15 @@ data = []
 def measure(keithley, data, duration, mode):
     start_time = time.time()
     while time.time() - start_time < duration:
-        value = float(keithley.query("MEAS:VOLT?") if mode == "v" else keithley.query("MEAS:CURR?"))
+        read_str = keithley.query("READ?")
+        parts = read_str.strip().split(',')
+
+        # For voltage mode: parts[1] = actual voltage measured
+        # For current mode: parts[2] = actual current measured
+        if mode.lower() == 'v':
+            value = float(parts[1])
+        else:
+            value = float(parts[2])
         current_time = time.time() - timezero
         data.append({"Time": current_time, mode.upper(): value, "Voltage_Applied": 1})
         print(f"Measuring: Time = {round(current_time, 3)}s, {mode.upper()} = {round(value, 9)}")
@@ -85,7 +92,6 @@ file_path = experiment_folder / f"{current_time_str}_{experiment}_{measure_time}
 df = pd.DataFrame(data)
 df.to_csv(file_path, index=False)
 print(f"Measurement finished. Data saved to {file_path}")
-os.system("scp -r /home/nickzahnd/Documents/Sourcemeter_Data pi@134.21.218.23:~/OneDrive - Université de Fribourg/Documents/Electronic measurements/Sourcemeter/Raw_data/Python_RasPi_output") 
 
 # Close connection
 keithley.close()
