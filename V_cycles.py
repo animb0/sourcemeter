@@ -22,7 +22,7 @@ keithley.reset()
 keithley.terminals("front")
 
 # Experiment parameters
-experiment = "NZ38_HCL_LiAMPS"
+experiment = "NZ54_PEDOT_DL"
 measure_time = 1800
 recharge_time = 1800
 recharge_V = +1

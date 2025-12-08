@@ -46,6 +46,11 @@ data = []
 
 # Function to measure voltage or current
 def measure(keithley, data, duration, mode):
+    keithley.write("OUTP OFF")  # <-- Turn off output to begin discharge
+    if mode.lower() == 'v':
+        keithley.write("SENS:FUNC 'VOLT'")
+    else:
+        keithley.write("SENS:FUNC 'CURR'")
     start_time = time.time()
     while time.time() - start_time < duration:
         try:
@@ -64,7 +69,9 @@ def measure(keithley, data, duration, mode):
 
 # Function to apply voltage during recharge
 def apply_voltage(keithley, data, mode):
-    keithley.write(f"SOUR:VOLT {recharge_val}")  # Set recharge voltage
+    keithley.write("SOUR:FUNC VOLT")     # choose voltage source mode
+    keithley.write(f"SOUR:VOLT {recharge_val}")
+    keithley.write("OUTP ON")
     start_time = time.time()
     while time.time() - start_time < recharge_time:
         value = float(keithley.query("MEAS:VOLT?") if mode == "v" else keithley.query("MEAS:CURR?"))

@@ -66,7 +66,7 @@ for cycle in range(cycles):
 
 # Save data to CSV in the user's Documents folder
 current_time_str = time.strftime("%Y%m%d-%H%M%S")
-output_folder = Path.home() / "Documents/Electronic measurements/Sourcemeter/Raw data/Python_script_cycles_output"
+output_folder = Path.home() / "My Documents/Electronic measurements/Sourcemeter/Raw data"
 output_folder.mkdir(parents=True, exist_ok=True)
 file_path = output_folder / f"{current_time_str}_{experiment}_{measure_time}s_dis_{recharge_time}s_charge_{recharge_V}V_{mode}.csv"
 
