@@ -13,7 +13,7 @@ import pyvisa
 rm = pyvisa.ResourceManager()
 
 # Connect to Keithley 2450
-keithley = rm.open_resource("USB0::0x05e6::0x2450::04616895::INSTR")
+keithley = rm.open_resource("USB0::1510::9296::04616895::0::INSTR")
 
 # Identify the device
 print("Connected to:", keithley.query("*IDN?"))
