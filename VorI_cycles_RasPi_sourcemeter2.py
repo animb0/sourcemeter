@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """
+Created on Wed Dec 10 12:21:41 2025
 Keithley 2450 Voltage/Current Measurement Script (PyVISA Only)
-Author: ZahndN
-Date: March 2025
+
+@author: ZahndN
+For Keithley sourcemeter Nr 2 borrowed from Biophysics 
 """
+
+#
 
 import time
 import pandas as pd
@@ -13,7 +17,7 @@ import pyvisa
 rm = pyvisa.ResourceManager()
 
 # Connect to Keithley 2450
-keithley = rm.open_resource("USB0::0x05e6::0x2450::04616895::INSTR")
+keithley = rm.open_resource("USB0::0x05e6::0x2450::04304940::INSTR")
 
 # Identify the device
 print("Connected to:", keithley.query("*IDN?"))
