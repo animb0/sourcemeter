@@ -18,6 +18,7 @@ rm = pyvisa.ResourceManager()
 
 # Connect to Keithley 2450
 keithley = rm.open_resource("USB0::1510::9296::04304940::0::INSTR")
+
 # Identify the device
 print("Connected to:", keithley.query("*IDN?"))
 
@@ -49,17 +50,15 @@ data = []
 
 # Function to measure voltage or current
 def measure(keithley, data, duration, mode):
-    keithley.write("OUTP OFF")
-
-    # ENABLE measurement
-    keithley.write("SENS:FUNC 'VOLT','CURR'")
-    keithley.write("SENS:VOLT:RANG:AUTO ON")
-    keithley.write("SENS:CURR:RANG:AUTO ON")
-    time.sleep(0.05)
-
+    keithley.write("OUTP OFF")  # <-- Turn off output to begin discharge
+    if mode.lower() == 'v':
+        keithley.write("SENS:FUNC 'VOLT'")
+    else:
+        keithley.write("SENS:FUNC 'CURR'")
     start_time = time.time()
     while time.time() - start_time < duration:
         try:
+            # Use direct command for reliability
             if mode.lower() == 'v':
                 value = float(keithley.query("MEAS:VOLT?"))
             else:
@@ -68,51 +67,22 @@ def measure(keithley, data, duration, mode):
             current_time = time.time() - timezero
             data.append({"Time": current_time, mode.upper(): value, "Voltage_Applied": 1})
             print(f"Measuring: Time = {round(current_time, 3)}s, {mode.upper()} = {round(value, 9)}")
-
         except Exception as e:
             print(f"❌ Measurement error: {e}")
-
         time.sleep(1)
 
 # Function to apply voltage during recharge
 def apply_voltage(keithley, data, mode):
-    # Configure source for voltage output
-    keithley.write("SOUR:FUNC VOLT")
+    keithley.write("SOUR:FUNC VOLT")     # choose voltage source mode
     keithley.write(f"SOUR:VOLT {recharge_val}")
-
-    # Enable measurement subsystem
-    keithley.write("SENS:FUNC 'VOLT','CURR'")
-    keithley.write("SENS:VOLT:RANG:AUTO ON")
-    keithley.write("SENS:CURR:RANG:AUTO ON")
-
     keithley.write("OUTP ON")
-    time.sleep(0.05)  # let the SMU settle to avoid USB freeze
-
     start_time = time.time()
     while time.time() - start_time < recharge_time:
-        try:
-            value = float(
-                keithley.query("MEAS:VOLT?") if mode == "v" else keithley.query("MEAS:CURR?")
-            )
-            current_time = time.time() - timezero
-
-            data.append({
-                "Time": current_time,
-                mode.upper(): value,
-                "Voltage_Applied": recharge_val
-            })
-
-            print(
-                f"Applying {recharge_val}V: Time = {round(current_time, 3)}s, {mode.upper()} = {round(value, 5)}"
-            )
-        except Exception as e:
-            print("⚠ Error during recharge:", e)
-
+        value = float(keithley.query("MEAS:VOLT?") if mode == "v" else keithley.query("MEAS:CURR?"))
+        current_time = time.time() - timezero
+        data.append({"Time": current_time, mode.upper(): value, "Voltage_Applied": 0})
+        print(f"Applying {recharge_val}V: Time = {round(current_time, 3)}s, {mode.upper()} = {round(value, 5)}")
         time.sleep(1)
-
-    keithley.write("OUTP OFF")
-    time.sleep(0.05)
-
 
 # Execute cycles
 print(f"Total duration: {total_time}s, Mode: {mode.upper()}")
