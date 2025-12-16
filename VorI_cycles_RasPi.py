@@ -20,9 +20,9 @@ print("Connected to:", keithley.query("*IDN?"))
 
 # Get user input for experiment parameters
 user_input = input(
-    "Enter experiment name, measurement time (s), recharge time (s), recharge voltage (V or A), cycles, mode (V/I):\n"
+    "Enter experiment name, measurement time (s), recharge time (s), recharge voltage (V or A), cycles, recharging limit, mode (V/I):\n"
 )
-experiment, measure_time, recharge_time, recharge_val, cycles, mode = user_input.split()
+experiment, measure_time, recharge_time, recharge_val, cycles, limit, mode = user_input.split()
 
 # Convert inputs to correct types
 measure_time = float(measure_time)
@@ -71,6 +71,7 @@ def measure(keithley, data, duration, mode):
 def apply_voltage(keithley, data, mode):
     keithley.write("SOUR:FUNC VOLT")     # choose voltage source mode
     keithley.write(f"SOUR:VOLT {recharge_val}")
+    keithley.write(f"SOUR:VOLT:ILIM {limit}")  # set current limit
     keithley.write("OUTP ON")
     start_time = time.time()
     while time.time() - start_time < recharge_time:
@@ -84,7 +85,7 @@ def apply_voltage(keithley, data, mode):
 print(f"Total duration: {total_time}s, Mode: {mode.upper()}")
 for cycle in range(cycles):
     print(f"Cycle {cycle + 1}/{cycles}")
-    apply_voltage(keithley, data, mode)
+    apply_voltage(keithley, data, limit, mode)
     measure(keithley, data, measure_time, mode)
 
 # Save data to CSV in a dynamically created folder named after the experiment
