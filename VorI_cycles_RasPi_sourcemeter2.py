@@ -23,9 +23,9 @@ print("Connected to:", keithley.query("*IDN?"))
 
 # Get user input for experiment parameters
 user_input = input(
-    "Enter experiment name, measurement time (s), recharge time (s), recharge voltage (V or A), cycles, mode (V/I):\n"
+    "Enter experiment name, measurement time (s), recharge time (s), recharge voltage (V or A), cycles, recharging limit, mode (V/I):\n"
 )
-experiment, measure_time, recharge_time, recharge_val, cycles, mode = user_input.split()
+experiment, measure_time, recharge_time, recharge_val, cycles, limit, mode = user_input.split()
 
 # Convert inputs to correct types
 measure_time = float(measure_time)
@@ -75,10 +75,11 @@ def measure(keithley, data, duration, mode):
         time.sleep(1)
 
 # Function to apply voltage during recharge
-def apply_voltage(keithley, data, mode):
+def apply_voltage(keithley, data, limit, mode):
     # Configure source for voltage output
     keithley.write("SOUR:FUNC VOLT")
     keithley.write(f"SOUR:VOLT {recharge_val}")
+    keithley.write(f"SOUR:VOLT:ILIM {limit}")  # set current limit
 
     # Enable measurement subsystem
     keithley.write("SENS:FUNC 'VOLT','CURR'")
