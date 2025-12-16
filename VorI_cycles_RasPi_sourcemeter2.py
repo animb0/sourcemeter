@@ -117,6 +117,9 @@ def apply_voltage(keithley, data, limit, mode):
 
 # Execute cycles
 print(f"Total duration: {total_time}s, Mode: {mode.upper()}")
+#measure before first cycle for 10 s
+measure(keithley, data, 10, mode)
+
 for cycle in range(cycles):
     print(f"Cycle {cycle + 1}/{cycles}")
     apply_voltage(keithley, data, limit, mode)

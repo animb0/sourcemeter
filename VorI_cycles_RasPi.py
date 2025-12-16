@@ -29,6 +29,7 @@ measure_time = float(measure_time)
 recharge_time = float(recharge_time)
 recharge_val = float(recharge_val)
 cycles = int(cycles)
+limit = float(limit)
 mode = mode.lower()
 
 # Validate mode
@@ -81,8 +82,13 @@ def apply_voltage(keithley, data, limit, mode):
         print(f"Applying {recharge_val}V: Time = {round(current_time, 3)}s, {mode.upper()} = {round(value, 5)}")
         time.sleep(1)
 
+
+
 # Execute cycles
 print(f"Total duration: {total_time}s, Mode: {mode.upper()}")
+#measure before first cycle for 10 s
+
+measure(keithley, data, 10, mode)
 for cycle in range(cycles):
     print(f"Cycle {cycle + 1}/{cycles}")
     apply_voltage(keithley, data, limit, mode)
