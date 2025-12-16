@@ -68,7 +68,7 @@ def measure(keithley, data, duration, mode):
         time.sleep(1)
 
 # Function to apply voltage during recharge
-def apply_voltage(keithley, data, mode):
+def apply_voltage(keithley, data, limit, mode):
     keithley.write("SOUR:FUNC VOLT")     # choose voltage source mode
     keithley.write(f"SOUR:VOLT {recharge_val}")
     keithley.write(f"SOUR:VOLT:ILIM {limit}")  # set current limit
