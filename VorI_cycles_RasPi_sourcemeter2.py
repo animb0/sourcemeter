@@ -119,7 +119,7 @@ def apply_voltage(keithley, data, limit, mode):
 print(f"Total duration: {total_time}s, Mode: {mode.upper()}")
 for cycle in range(cycles):
     print(f"Cycle {cycle + 1}/{cycles}")
-    apply_voltage(keithley, data, mode)
+    apply_voltage(keithley, data, limit, mode)
     measure(keithley, data, measure_time, mode)
 
 # Save data to CSV in a dynamically created folder named after the experiment
