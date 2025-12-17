@@ -79,7 +79,7 @@ def apply_voltage(keithley, data, limit, mode):
     # Configure source for voltage output
     keithley.write("SOUR:FUNC VOLT")
     keithley.write(f"SOUR:VOLT {recharge_val}")
-    keithley.write(f"SOUR:VOLT:ILIM {limit}")  # set current limit
+    #keithley.write(f"SOUR:VOLT:ILIM {limit}")  # set current limit
 
     # Enable measurement subsystem
     keithley.write("SENS:FUNC 'VOLT','CURR'")
