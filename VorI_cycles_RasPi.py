@@ -72,7 +72,7 @@ def measure(keithley, data, duration, mode):
 def apply_voltage(keithley, data, limit, mode):
     keithley.write("SOUR:FUNC VOLT")     # choose voltage source mode
     keithley.write(f"SOUR:VOLT {recharge_val}")
-    keithley.write(f"SOUR:VOLT:ILIM {limit}")  # set current limit
+    #keithley.write(f"SOUR:VOLT:ILIM {limit}")  # set current limit
     keithley.write("OUTP ON")
     start_time = time.time()
     while time.time() - start_time < recharge_time:
@@ -100,7 +100,7 @@ base_folder = Path("/home/nickzahnd/Documents/Sourcemeter_Data")  # Raspberry Pi
 experiment_folder = base_folder / experiment  # Folder named after experiment
 experiment_folder.mkdir(parents=True, exist_ok=True)  # Create folder if it doesn’t exist
 
-file_path = experiment_folder / f"{current_time_str}_{experiment}_{measure_time}s_dis_{recharge_time}s_charge_{recharge_val}_{mode}.csv"
+file_path = experiment_folder / f"{current_time_str}_{experiment}_{measure_time}s_dis_{recharge_time}s_charge_{recharge_val}_lim{limit}mAorV_{mode}.csv"
 
 # Save data
 df = pd.DataFrame(data)

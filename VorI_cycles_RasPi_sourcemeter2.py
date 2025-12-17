@@ -131,7 +131,8 @@ base_folder = Path("/home/nickzahnd/Documents/Sourcemeter_Data")  # Raspberry Pi
 experiment_folder = base_folder / experiment  # Folder named after experiment
 experiment_folder.mkdir(parents=True, exist_ok=True)  # Create folder if it doesn’t exist
 
-file_path = experiment_folder / f"{current_time_str}_{experiment}_{measure_time}s_dis_{recharge_time}s_charge_{recharge_val}_{mode}.csv"
+limit *=1000
+file_path = experiment_folder / f"{current_time_str}_{experiment}_{measure_time}s_dis_{recharge_time}s_charge_{recharge_val}_lim{limit}mAorV_{mode}.csv"
 
 # Save data
 df = pd.DataFrame(data)
