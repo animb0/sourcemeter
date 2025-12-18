@@ -31,6 +31,7 @@ experiment, measure_time, recharge_time, recharge_val, cycles, limit, mode = use
 measure_time = float(measure_time)
 recharge_time = float(recharge_time)
 recharge_val = float(recharge_val)
+limit = float(limit)
 cycles = int(cycles)
 mode = mode.lower()
 
