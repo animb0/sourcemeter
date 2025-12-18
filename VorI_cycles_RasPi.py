@@ -72,7 +72,7 @@ def measure(keithley, data, duration, mode):
 def apply_voltage(keithley, data, limit, mode):
     keithley.write("SOUR:FUNC VOLT")     # choose voltage source mode
     keithley.write(f"SOUR:VOLT {recharge_val}")
-    #keithley.write(f"SOUR:VOLT:ILIM {limit}")  # set current limit
+    keithley.write(f"SOUR:VOLT:ILIM {limit}")  # set current limit
     keithley.write("OUTP ON")
     start_time = time.time()
     while time.time() - start_time < recharge_time:
